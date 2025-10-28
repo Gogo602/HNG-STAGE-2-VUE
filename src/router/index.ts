@@ -12,10 +12,29 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/SignupView.vue'),
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: () => import('../views/UserView.vue'),
+      // Add a meta field if you want to require authentication for this route
+      // meta: { requiresAuth: true }
+    },
+    {
+      path: '/ticket-management',
+      name: 'ticket-management',
+      component: () => import('../views/TicketManagementView.vue'),
     },
   ],
 })
