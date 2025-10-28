@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Analytics from '@/components/dashboard/Analytics.vue'
+import RecentTicket from '@/components/dashboard/RecentTicket.vue'
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import Analytics from '@/components/dashboard/Analytics.vue'
         <h2 className="text-2xl">Dashboard</h2>
       </div>
       <Analytics />
+      <RecentTicket />
     </div>
   </section>
 </template>
