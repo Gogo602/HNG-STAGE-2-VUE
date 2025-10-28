@@ -24,13 +24,18 @@
 import EmailInput from '@/components/inputs/EmailInput.vue'
 import PasswordInput from '@/components/inputs/PasswordInput.vue'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { useToast } from 'vue-toast-notification'
+import { useAuthStore } from '@/stores/auth'
 
 const email = ref('')
 const password = ref('')
 const error = ref('')
 
 const router = useRouter()
+const route = useRoute()
+const toast = useToast()
+const auth = useAuthStore()
 
 const handleLogin = (e: Event) => {
   e.preventDefault()
@@ -50,9 +55,11 @@ const handleLogin = (e: Event) => {
       userId: user.id,
       token: sessionToken,
     }
-    localStorage.setItem('session', JSON.stringify(loginData))
-    console.log('Login successful!', loginData)
-    router.push('/user')
+
+    auth.setSession(JSON.stringify(loginData))
+    toast.success('Login successful!')
+    const redirectPath = (route.query.redirect as string) || '/user'
+    router.push(redirectPath)
   } else {
     error.value = 'Invalid email or password.'
     console.log(error.value)

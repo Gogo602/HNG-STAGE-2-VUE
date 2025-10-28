@@ -28,15 +28,33 @@ const router = createRouter({
       path: '/user',
       name: 'user',
       component: () => import('../views/UserView.vue'),
-      // Add a meta field if you want to require authentication for this route
-      // meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
     {
       path: '/ticket-management',
       name: 'ticket-management',
       component: () => import('../views/TicketManagementView.vue'),
+      meta: { requiresAuth: true },
     },
   ],
+})
+
+router.beforeEach((to, from) => {
+  const session = localStorage.getItem('session')
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
+
+  if (requiresAuth && !session) {
+    return {
+      name: 'login',
+      // Store the path so the user can be redirected back after logging in
+      query: { redirect: to.fullPath },
+    }
+  }
+
+  // If the user is authenticated and tries to go to the login or register page, redirect to the dashboard
+  if (session && (to.name === 'login' || to.name === 'register')) {
+    return { name: 'user' }
+  }
 })
 
 export default router
